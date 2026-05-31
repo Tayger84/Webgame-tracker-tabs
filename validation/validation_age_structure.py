@@ -18,16 +18,16 @@ def age_structure_validation(parsed_age: AgeTimeData) -> AgeStructureResult:
     if name is None or re.fullmatch(NAME_PATTERN, name, flags=re.IGNORECASE) is None:
         errors.append(f"Missing/Incorrect Age name")
     
-    if start is None or re.fullmatch(NAME_PATTERN, start) is None:
+    if start is None or re.fullmatch(START_END_PATTERN, start) is None:
         errors.append("Missing/Incorrect Age start")
     
-    if end is None or re.fullmatch(NAME_PATTERN, end) is None:
+    if end is None or re.fullmatch(START_END_PATTERN, end) is None:
         errors.append("Missing/Incorrect age end")
     
-    if rest_time is None or re.fullmatch(NAME_PATTERN, rest_time) is None:
-        errors.append("Missing Age rest time")
+    if rest_time is None or re.fullmatch(REST_TIME_PATTERN, rest_time) is None:
+        errors.append("Missing/Incorrect Age rest time")
         
-        
+ 
     return AgeStructureResult(
         ok=not errors,
         errors=errors,
