@@ -49,7 +49,7 @@ def load_age_time_data() -> AgeTimeResult:
     
     for value in raw_t_data:
         
-        if value.lover() in empty_values:
+        if value.lower() in empty_values:
             t_data.append(None)
         else:
             t_data.append(value)
@@ -63,6 +63,7 @@ def load_age_time_data() -> AgeTimeResult:
             end=t_data[2],
             rest_time=t_data[3]
         ),
+        errors=[],
         raw_values=t_data,
     )
     

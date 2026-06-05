@@ -23,18 +23,21 @@ def age_structure_validation(parsed_age: AgeTimeData) -> AgeStructureResult:
     START_END_PATTERN = r"\d{2}\.\d{2}\.\d{4} - \d{2}:\d{2}"
     REST_TIME_PATTERN = r"\d+\s+(?:dní|den)\s+\d+\s+(?:hodin|hodiny)\s+\d+\s+(?:minut|minuty)"
     
-
-    if name is None or re.fullmatch(NAME_PATTERN, name, flags=re.IGNORECASE) is None:
-        errors.append(f"Missing/Incorrect Age name")
+    if name is not None:
+        if not re.fullmatch(NAME_PATTERN, name, flags=re.IGNORECASE):
+            errors.append(f"Missing/Incorrect Age name")
     
-    if start is None or re.fullmatch(START_END_PATTERN, start) is None:
-        errors.append("Missing/Incorrect Age start")
+    if start is not None:
+        if not re.fullmatch(START_END_PATTERN, start):
+            errors.append("Missing/Incorrect Age start")
     
-    if end is None or re.fullmatch(START_END_PATTERN, end) is None:
-        errors.append("Missing/Incorrect age end")
+    if end is not None:
+        if not re.fullmatch(START_END_PATTERN, end):
+            errors.append("Missing/Incorrect age end")
     
-    if rest_time is None or re.fullmatch(REST_TIME_PATTERN, rest_time) is None:
-        errors.append("Missing/Incorrect Age rest time")
+    if rest_time is not None:
+        if not re.fullmatch(REST_TIME_PATTERN, rest_time):
+            errors.append("Missing/Incorrect Age rest time")
         
  
     return AgeStructureResult(
