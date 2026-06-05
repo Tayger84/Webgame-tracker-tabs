@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from schemas import AgeTimeData, AgeTimeResult
    
-def load_age_time_data() -> AgeTimeData | None:
+def load_age_time_data() -> AgeTimeResult:
     """
     Get Age data from 4 <strong> tags
 
@@ -43,7 +43,7 @@ def load_age_time_data() -> AgeTimeData | None:
     
     raw_t_data = [ data.get_text(strip=True) for data in time_data ]
     
-    # check None data present between <strong> tag
+    # check None data present between <strong> tags
     empty_values = ("", ".", "_", ",", "-", "none", "null")    
     t_data = []
     
@@ -58,10 +58,10 @@ def load_age_time_data() -> AgeTimeData | None:
     return AgeTimeResult(
         ok=True,
         data=AgeTimeData(
-        name=t_data[0],
-        start=t_data[1],
-        end=t_data[2],
-        rest_time=t_data[3]
+            name=t_data[0],
+            start=t_data[1],
+            end=t_data[2],
+            rest_time=t_data[3]
         ),
         raw_values=t_data,
     )

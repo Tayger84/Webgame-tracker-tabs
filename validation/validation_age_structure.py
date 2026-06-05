@@ -2,6 +2,15 @@ import re
 from schemas import AgeTimeData, AgeStructureResult
 
 def age_structure_validation(parsed_age: AgeTimeData) -> AgeStructureResult:
+    """
+    The function for check is there one of data pattern is None or in the correct shape. 
+
+    Args:
+        parsed_age (AgeTimeData)
+
+    Returns:
+        AgeStructureResult: _description_
+    """
     
     errors = []
     

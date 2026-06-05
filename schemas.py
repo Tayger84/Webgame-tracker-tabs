@@ -20,4 +20,11 @@ class AgeStructureResult:
     ok: bool
     errors: list[str] = field(default_factory=list)
     
+@dataclass(frozen=True)
+class AgePipelineResult:
+    ok: bool
+    errors: list[str] = field(default_factory=list)
+    data: AgeTimeData | None = None
+    raw_values: list[str] = field(default_factory=list)
+    
 # end parsering dataclass
