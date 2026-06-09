@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-# start Age parsering dataclass 
+# Start Age parsering dataclasses
 @dataclass(frozen=True)
 class AgeTimeData:
     name: str | None = None
@@ -27,4 +27,24 @@ class AgePipelineResult:
     data: AgeTimeData | None = None
     raw_values: list[str] = field(default_factory=list)
     
-# end Age parsering dataclass
+# End Age parsering dataclasses
+
+# Start Alliance Overview parsering dataclasses
+@dataclass(frozen=True)
+class AllianceOverviewData:
+        country_number: int | None = None
+        alliance_name: str | None = None
+        country_name: str | None = None
+        country_area: str |None = None
+        country_prestige: str | None = None
+        player_name: str | None = None
+        regime: str | None = None
+
+@dataclass(frozen=True)
+class AllianceOverviewResult:
+    ok: bool
+    data: dict[int, AllianceOverviewData] = field(default_factory=dict)
+    errors: list[str] = field(default_factory=list)
+    # raw_values: list[str] = field(default_factory=list)
+
+# End Alliance Overview parsering dataclasses

@@ -1,12 +1,18 @@
 from flask import Flask
-from parsers.age import parse_age
+from services.age_pipeline import process_age_time
 
 app = Flask(__name__)
 
 @app.route("/")
 def homepage():
-    present_age = parse_age
-    return present_age
+    present_age = process_age_time()
+    data = { "name" : present_age.data.name,
+             "start": present_age.data.start,
+             "end": present_age.data.end,
+             "rest": present_age.data.rest_time,
+    }
+    errors = present_age.errors  
+    return data
     
 
 # def initiate_function():

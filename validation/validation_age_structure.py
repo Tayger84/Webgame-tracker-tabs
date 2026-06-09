@@ -39,7 +39,6 @@ def age_structure_validation(parsed_age: AgeTimeData) -> AgeStructureResult:
         if not re.fullmatch(REST_TIME_PATTERN, rest_time):
             errors.append("Missing/Incorrect Age rest time")
         
- 
     return AgeStructureResult(
         ok=not errors,
         errors=errors,

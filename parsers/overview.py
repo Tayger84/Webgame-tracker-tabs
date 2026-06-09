@@ -1,86 +1,97 @@
-import re
 from bs4 import BeautifulSoup
-# import upload
+from schemas import AllianceOverviewData, AllianceOverviewResult
+from pathlib import Path
 
-def parse_alliance_overview(html_content) -> list[dict]:
-    soup = BeautifulSoup(html_content, "lxml")
+def load_alliance_overview_data(html) -> AllianceOverviewResult:
+    """
+    Get Alliance Overview data for full country and player name and the regime of every country
+
+    Args:
+        html file that should be loaded from user
+
+    Returns:
+        AllianceOverviewResult: 
+    """
+    # find the correct data in the html file
+    soup = BeautifulSoup(html, "html.parser") 
     
-    # find the header for check correct page
-    header = soup.find('h2', string=lambda t: t and "Alianční bonusy" in t)
+    # simple checking of correct file
+    header = soup.find('h2', string=lambda t: t and "Alianční bonusy" in t) # if Alianční bonusy are present, almost full page should be present
+    
     if not header:
-        return None
-     
-    regimes_dict = {
-        "Demo": "Demokracie",
-        "Rep": "Republika",
-        "Dikt": "Diktatura",
-        "Fund": "Fundamentalismus",
-        "Kom": "Komunismus",
-        "Feud": "Feudalismus",
-        "Utop": "Utopie",
-        "Robo": "Robokracie",
-        "Anar": "Anarchie",
-        "Tech": "Technokracie"
-    }
-    
+        return AllianceOverviewResult(
+            ok=False,
+            errors=["Incorrect page for parsing, Alliance Overview is necessary"],
+        )
+        
     # get a aliance name header and its name
     alliance_name_header = soup.find("h1")
+    
+    if not alliance_name_header:
+        return AllianceOverviewResult(
+            ok=False,
+            errors=["The Alliance name header was not able to find on the page"]
+        )
+        
     alliance_name = alliance_name_header.get_text(strip=True)
     
     # get correct ali table without <th> headers
-    table = alliance_name_header.find_next("table")
-    rows = [ tr for tr in table.find_all("tr") if tr.find("a") ] # <tr><td><a>
+    alliance_table = alliance_name_header.find_next("table")
     
-    result = {}
+    if not alliance_table:
+        return AllianceOverviewResult(
+            ok=False,
+            errors=["No find an Alliance table on the page"]
+        )
     
+    rows = [ tr for tr in alliance_table.find_all("tr") if tr.find("a") ] # <tr><td><a>    
+
+    countries: dict[int, AllianceOverviewData] = {}
+    errors: list[str] = []
+
     for row in rows:
-                
-        links = [ 
-                 a for a in row.find_all("a")
-                 if not a.find("img") # links without img inside
-                 ] 
-        if len(links) <2:
+        country_text = row.get_text("|", strip=True).split("|")
+        
+        if len(country_text) < 9:
+            errors.append(f"Invalid row structure: {country_text}")
+            continue
+               
+        try:    
+            name, number = country_text[2].split("(#", 1)
+            number = int(number.rstrip(")").strip())
+        except ValueError:
+            errors.append(f"Invalid country name/number format: {country_text[2]}")
             continue
         
-        # get names and number of country and player
-        country_text = links[0].get_text(strip=True)
-        player_name = links[1].get_text(strip=True).lstrip("- ")
-
-        # extract number from contry_text (#xxx)
-        number_match = re.search(r"\(#(\d+)\)", country_text)
-        if not number_match:
+        if number in countries:
+            errors.append(f"Duplicate country number in the countries: {number}")
             continue
-        country_number = int(number_match.group(1))
         
-        # extract name from country_text xxx(#xxx)
-        country_name = country_text.split("(")[0].strip()
+        country = AllianceOverviewData(
+            alliance_name=alliance_name,
+            country_name=name,
+            country_number=number,
+            player_name=country_text[3].lstrip("- "),
+            country_area=country_text[4],
+            country_prestige=country_text[6],
+            regime=country_text[8],            
+        )
         
-        # clean cells for the correct regime extraction
-        clean_cells = [
-            td for td in row.find_all("td")
-            if not td.find(["img", "sup", "span"])
-        ] 
-        
-        regime_short = None
-        
-        for td in clean_cells:
-            text = td.get_text(strip=True).capitalize()
-            if text in regimes_dict:
-                regime_short = text
-                break
-            
-        regime = regimes_dict.get(regime_short, None)
-        
-        if regime is None:
-            print(f"[WARN] Zřízení nenalezeno: země '{country_name}', číslo {country_number}, hodnota='{regime_short}")
-        
-        result[country_number] = {
-            "alliance": alliance_name,
-            "country_name": country_name,
-            "player_name": player_name,
-            "regime_short": regime_short,
-            "regime_full": regime
-        }
+        countries[number] = country
 
-    return result
+    return AllianceOverviewResult(
+       ok=len(errors)==0,
+       data=countries,
+       errors=errors
+    )
 
+
+# TEST_DIR = Path(__file__).resolve().parents[1]
+# file_dir = TEST_DIR / "test_files" / "NTRLTY_aliance.html"
+
+# with file_dir.open("r", encoding="utf-8") as overview:
+    
+#     html = overview.read()
+    
+# parsed = load_alliance_overview_data(html)
+# print(parsed)
