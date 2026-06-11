@@ -27,7 +27,7 @@ def test_age_stucture_failure():
     assert result.ok == False
     assert "end" in result.errors[0].lower()
     
-test_age_structure_pass()
-test_age_stucture_failure()
+# test_age_structure_pass()
+# test_age_stucture_failure()
     
     
