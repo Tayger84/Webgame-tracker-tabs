@@ -1,15 +1,9 @@
-from pathlib import Path
+from tests.helpers import load_fixture
 from parsers.overview import load_alliance_overview_data
-
-FIXTURE_DIR = Path(__file__).resolve().parent / "fixtures" # fixtures folder
-
-def load_fixture(filename: str) -> str:
-    html_test_file = FIXTURE_DIR / filename
-    return html_test_file.read_text(encoding="utf-8")
 
 def test_valid_input():
     
-    file_text = load_fixture("original_NTRLTY_aliance.html")    
+    file_text = load_fixture("overview_parser_test_data/original_NTRLTY_aliance.html")    
     result = load_alliance_overview_data(html=file_text)
     
     assert result.ok is True
@@ -21,7 +15,7 @@ def test_valid_input():
 
 def test_overview_bad_country_number_format():
     
-    file_text = load_fixture("overview_bad_country_number_format.html")    
+    file_text = load_fixture("overview_parser_test_data/overview_bad_country_number_format.html")    
     result = load_alliance_overview_data(html=file_text)
     
     assert result.ok is False
@@ -30,8 +24,10 @@ def test_overview_bad_country_number_format():
     print(result.errors)
     
 def test_overview_corrupted_short_row():
-    pass
+    file_text = load_fixture("overview_parser_test_data/overview_corrupted_short_row.html")    
+    result = load_alliance_overview_data(html=file_text)
+    
+    assert result.ok is False
+    assert len(result.errors) > 0
     
 
-# test_valid_input()
-test_overview_bad_country_number_format()

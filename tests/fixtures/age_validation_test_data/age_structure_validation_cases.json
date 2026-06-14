@@ -1,0 +1,177 @@
+{
+  "valid_full_age_data": {
+    "input": {
+      "name": "97. věk",
+      "start": "01.06.2026 - 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "17 dní 6 hodin 30 minut"
+    },
+    "expected": {
+      "ok": true,
+      "errors": []
+    }
+  },
+  "valid_name_without_dot": {
+    "input": {
+      "name": "97 věk",
+      "start": "01.06.2026 - 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "17 dní 6 hodin 30 minut"
+    },
+    "expected": {
+      "ok": true,
+      "errors": []
+    }
+  },
+  "valid_uppercase_age_name": {
+    "input": {
+      "name": "97. Věk",
+      "start": "01.06.2026 - 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "17 den 1 hodiny 1 minuty"
+    },
+    "expected": {
+      "ok": true,
+      "errors": []
+    }
+  },
+  "valid_all_values_none": {
+    "input": {
+      "name": null,
+      "start": null,
+      "end": null,
+      "rest_time": null
+    },
+    "expected": {
+      "ok": true,
+      "errors": []
+    }
+  },
+  "valid_partial_none_values": {
+    "input": {
+      "name": "97. věk",
+      "start": null,
+      "end": "30.06.2026 - 18:00",
+      "rest_time": null
+    },
+    "expected": {
+      "ok": true,
+      "errors": []
+    }
+  },
+  "invalid_age_name_text": {
+    "input": {
+      "name": "Age 97",
+      "start": "01.06.2026 - 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "17 dní 6 hodin 30 minut"
+    },
+    "expected": {
+      "ok": false,
+      "errors": [
+        "Missing/Incorrect Age name"
+      ]
+    }
+  },
+  "invalid_age_name_missing_space": {
+    "input": {
+      "name": "97.věk",
+      "start": "01.06.2026 - 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "17 dní 6 hodin 30 minut"
+    },
+    "expected": {
+      "ok": false,
+      "errors": [
+        "Missing/Incorrect Age name"
+      ]
+    }
+  },
+  "invalid_start_separator": {
+    "input": {
+      "name": "97. věk",
+      "start": "01.06.2026 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "17 dní 6 hodin 30 minut"
+    },
+    "expected": {
+      "ok": false,
+      "errors": [
+        "Missing/Incorrect Age start"
+      ]
+    }
+  },
+  "invalid_start_single_digit_day": {
+    "input": {
+      "name": "97. věk",
+      "start": "1.06.2026 - 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "17 dní 6 hodin 30 minut"
+    },
+    "expected": {
+      "ok": false,
+      "errors": [
+        "Missing/Incorrect Age start"
+      ]
+    }
+  },
+  "invalid_end_separator": {
+    "input": {
+      "name": "97. věk",
+      "start": "01.06.2026 - 18:00",
+      "end": "30.06.2026 18:00",
+      "rest_time": "17 dní 6 hodin 30 minut"
+    },
+    "expected": {
+      "ok": false,
+      "errors": [
+        "Missing/Incorrect age end"
+      ]
+    }
+  },
+  "invalid_rest_time_missing_minutes": {
+    "input": {
+      "name": "97. věk",
+      "start": "01.06.2026 - 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "17 dní 6 hodin"
+    },
+    "expected": {
+      "ok": false,
+      "errors": [
+        "Missing/Incorrect Age rest time"
+      ]
+    }
+  },
+  "invalid_rest_time_singular_hour_not_supported": {
+    "input": {
+      "name": "97. věk",
+      "start": "01.06.2026 - 18:00",
+      "end": "30.06.2026 - 18:00",
+      "rest_time": "1 den 1 hodina 1 minuta"
+    },
+    "expected": {
+      "ok": false,
+      "errors": [
+        "Missing/Incorrect Age rest time"
+      ]
+    }
+  },
+  "invalid_all_fields": {
+    "input": {
+      "name": "Age 97",
+      "start": "2026-06-01 18:00",
+      "end": "2026-06-30 18:00",
+      "rest_time": "17 days 6 hours 30 minutes"
+    },
+    "expected": {
+      "ok": false,
+      "errors": [
+        "Missing/Incorrect Age name",
+        "Missing/Incorrect Age start",
+        "Missing/Incorrect age end",
+        "Missing/Incorrect Age rest time"
+      ]
+    }
+  }
+}

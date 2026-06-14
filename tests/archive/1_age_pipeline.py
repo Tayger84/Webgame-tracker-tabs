@@ -43,20 +43,19 @@ def test_process_age_time_none_failure_data():
             errors=[f"The validation process failed"] + validation_age.errors
         )
         
-    return AgePipelineResult(
+    result = AgePipelineResult(
         ok=True,
         data=parsed_age.data,
         errors=[]
     )
+    
+    assert result.ok is False
+    assert bool(result.data) == False
+    assert bool(result.errors) == True
 
-# test_process_age_time_pass()
-result = test_process_age_time_none_failure_data()
+
 
 # assert result.ok ==True
 # assert bool(result.data) == True
 # assert result.errors == []
 
-assert result.ok == False
-assert bool(result.data) == False
-assert bool(result.errors) == True
-print(result.errors)

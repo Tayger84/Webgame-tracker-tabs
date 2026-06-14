@@ -1,0 +1,67 @@
+{
+  "valid_age_page.html": {
+    "ok": true,
+    "data": {
+      "name": "Age 97",
+      "start": "01.06.2026 18:00",
+      "end": "30.06.2026 18:00",
+      "rest_time": "17 dni 6 hodin"
+    },
+    "errors": [],
+    "raw_values": [
+      "Age 97",
+      "01.06.2026 18:00",
+      "30.06.2026 18:00",
+      "17 dni 6 hodin"
+    ]
+  },
+  "empty_values_age_page.html": {
+    "ok": true,
+    "data": {
+      "name": null,
+      "start": null,
+      "end": null,
+      "rest_time": null
+    },
+    "errors": [],
+    "raw_values": [
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "no_time_data_page.html": {
+    "ok": false,
+    "data": null,
+    "errors": [
+      "No time data found in the html"
+    ],
+    "raw_values": []
+  },
+  "missing_theme_page.html": {
+    "ok": false,
+    "data": null,
+    "errors": [
+      "Expected parser to fail because id=\"theme\" is missing. Current parser raises AttributeError before returning AgeTimeResult."
+    ],
+    "raw_values": []
+  },
+  "extra_strong_tags_age_page.html": {
+    "ok": true,
+    "data": {
+      "name": "Age 97",
+      "start": "01.06.2026 18:00",
+      "end": "30.06.2026 18:00",
+      "rest_time": "17 dni 6 hodin"
+    },
+    "errors": [],
+    "raw_values": [
+      "Age 97",
+      "01.06.2026 18:00",
+      "30.06.2026 18:00",
+      "17 dni 6 hodin",
+      "Extra value ignored by current dataclass mapping"
+    ]
+  }
+}

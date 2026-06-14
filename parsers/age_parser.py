@@ -1,10 +1,9 @@
-import requests
 from bs4 import BeautifulSoup
 from schemas import AgeTimeData, AgeTimeResult
    
-def load_age_time_data() -> AgeTimeResult:
+def load_age_time_data(html: str) -> AgeTimeResult:
     """
-    Get Age data from 4 <strong> tags
+    Get Age data from 4 <strong> tags on the webgame.cz
 
     Expected value ordering:
         1. Age name
@@ -17,29 +16,32 @@ def load_age_time_data() -> AgeTimeResult:
     
     note: Expected exactly four <strong> tags in a stable order.
     """
-    # requests block excecution
-    url = 'https://www.webgame.cz/'
+            
+    # find the correct data in the html file            
+    soup = BeautifulSoup(html, "html.parser")
+    theme_header = soup.find(id="theme")
     
-    try:
-        res = requests.get( url, timeout=10)
-        res.raise_for_status()
-        
-    except requests.RequestException as error:
+    if not theme_header:
         return AgeTimeResult(
-            ok = False, 
-            errors=[f"Response from server failed with exception {error}"],
+            ok=False,
+            errors= ["No theme ID found in the html"],
         )
     
-    # find the correct data in the html file            
-    soup = BeautifulSoup(res.text, "html.parser")
-    theme_header = soup.find(id="theme")
     time_data = theme_header.find_all("strong")
-    
+   
     if not time_data:
         return AgeTimeResult(
             ok=False,
             errors=["No time data found in the html"],
         )
+        
+    if len(time_data) != 4:
+        return AgeTimeResult(
+            ok=False,
+            errors=["Incorrect strongs tags in the theme"],
+            raw_values=time_data,
+        )
+        
     
     raw_t_data = [ data.get_text(strip=True) for data in time_data ]
     
