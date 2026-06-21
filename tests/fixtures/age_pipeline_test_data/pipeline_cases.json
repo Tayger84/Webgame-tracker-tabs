@@ -1,0 +1,216 @@
+{
+  "success_full_pipeline": {
+    "description": "Loader succeeds, parser succeeds, validation succeeds, pipeline returns parsed age data.",
+    "mocked_steps": {
+      "get_data_from_webpage": {
+        "return": [
+          true,
+          "fixtures/webpage_valid_age.html"
+        ]
+      },
+      "load_age_time_data": {
+        "return": {
+          "ok": true,
+          "data": {
+            "name": "97. věk",
+            "start": "01.06.2026 - 18:00",
+            "end": "30.06.2026 - 18:00",
+            "rest_time": "17 dní 6 hodin 30 minut"
+          },
+          "errors": [],
+          "raw_values": [
+            "97. věk",
+            "01.06.2026 - 18:00",
+            "30.06.2026 - 18:00",
+            "17 dní 6 hodin 30 minut"
+          ]
+        }
+      },
+      "age_structure_validation": {
+        "return": {
+          "ok": true,
+          "errors": []
+        }
+      }
+    },
+    "expected_pipeline_result": {
+      "ok": true,
+      "data": {
+        "name": "97. věk",
+        "start": "01.06.2026 - 18:00",
+        "end": "30.06.2026 - 18:00",
+        "rest_time": "17 dní 6 hodin 30 minut"
+      },
+      "errors": [],
+      "raw_values": []
+    }
+  },
+  "success_with_empty_values": {
+    "description": "Parser returns all values as None; validation accepts None values and pipeline succeeds.",
+    "mocked_steps": {
+      "get_data_from_webpage": {
+        "return": [
+          true,
+          "fixtures/webpage_empty_age_values.html"
+        ]
+      },
+      "load_age_time_data": {
+        "return": {
+          "ok": true,
+          "data": {
+            "name": null,
+            "start": null,
+            "end": null,
+            "rest_time": null
+          },
+          "errors": [],
+          "raw_values": [
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      },
+      "age_structure_validation": {
+        "return": {
+          "ok": true,
+          "errors": []
+        }
+      }
+    },
+    "expected_pipeline_result": {
+      "ok": true,
+      "data": {
+        "name": null,
+        "start": null,
+        "end": null,
+        "rest_time": null
+      },
+      "errors": [],
+      "raw_values": []
+    }
+  },
+  "parser_failed": {
+    "description": "Loader succeeds, parser fails, pipeline returns parser failure without running successful validation.",
+    "mocked_steps": {
+      "get_data_from_webpage": {
+        "return": [
+          true,
+          "<html><body><section id=\"theme\"></section></body></html>"
+        ]
+      },
+      "load_age_time_data": {
+        "return": {
+          "ok": false,
+          "data": null,
+          "errors": [
+            "No time data found in the html"
+          ],
+          "raw_values": []
+        }
+      },
+      "age_structure_validation": {
+        "called": false
+      }
+    },
+    "expected_pipeline_result": {
+      "ok": false,
+      "data": null,
+      "errors": [
+        "The parsing process failed.",
+        "No time data found in the html"
+      ],
+      "raw_values": []
+    }
+  },
+  "validation_failed_all_fields": {
+    "description": "Loader and parser succeed, but validation rejects every parsed field.",
+    "mocked_steps": {
+      "get_data_from_webpage": {
+        "return": [
+          true,
+          "fixtures/webpage_invalid_validation_age.html"
+        ]
+      },
+      "load_age_time_data": {
+        "return": {
+          "ok": true,
+          "data": {
+            "name": "Age 97",
+            "start": "2026-06-01 18:00",
+            "end": "2026-06-30 18:00",
+            "rest_time": "17 days 6 hours 30 minutes"
+          },
+          "errors": [],
+          "raw_values": [
+            "Age 97",
+            "2026-06-01 18:00",
+            "2026-06-30 18:00",
+            "17 days 6 hours 30 minutes"
+          ]
+        }
+      },
+      "age_structure_validation": {
+        "return": {
+          "ok": false,
+          "errors": [
+            "Missing/Incorrect Age name",
+            "Missing/Incorrect Age start",
+            "Missing/Incorrect age end",
+            "Missing/Incorrect Age rest time"
+          ]
+        }
+      }
+    },
+    "expected_pipeline_result": {
+      "ok": false,
+      "data": null,
+      "errors": [
+        "The validation process failed",
+        "Missing/Incorrect Age name",
+        "Missing/Incorrect Age start",
+        "Missing/Incorrect age end",
+        "Missing/Incorrect Age rest time"
+      ],
+      "raw_values": []
+    }
+  },
+  "webpage_download_failed_current_behavior": {
+    "description": "Documents current pipeline behavior when get_data_from_webpage fails: pipeline creates empty AgeTimeData, validation accepts it, and final result is ok=true.",
+    "mocked_steps": {
+      "get_data_from_webpage": {
+        "return": [
+          false,
+          "Connection timeout"
+        ]
+      },
+      "load_age_time_data": {
+        "called": false
+      },
+      "age_structure_validation": {
+        "input": {
+          "name": null,
+          "start": null,
+          "end": null,
+          "rest_time": null
+        },
+        "return": {
+          "ok": true,
+          "errors": []
+        }
+      }
+    },
+    "expected_pipeline_result": {
+      "ok": true,
+      "data": {
+        "name": null,
+        "start": null,
+        "end": null,
+        "rest_time": null
+      },
+      "errors": "Connection timeout",
+      "raw_values": []
+    }
+  }
+}

@@ -1,5 +1,13 @@
 from dataclasses import dataclass, field
 
+# Start loaded webpage function
+@dataclass(frozen=True)
+class TimeDataResult:
+    ok: bool
+    data: str | None = None
+    error: str | None = None
+# End loaded webpage function
+
 # Start Age parsering dataclasses
 @dataclass(frozen=True)
 class AgeTimeData:
