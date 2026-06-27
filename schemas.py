@@ -55,4 +55,10 @@ class AllianceOverviewResult:
     errors: list[str] = field(default_factory=list)
     # raw_values: list[str] = field(default_factory=list)
 
+@dataclass(frozen=True)    
+class OverviewStructureResult:
+    ok: bool
+    errors: list[str] = field(default_factory=list)
+    nones_counter: int | None = None
+    
 # End Alliance Overview parsering dataclasses
