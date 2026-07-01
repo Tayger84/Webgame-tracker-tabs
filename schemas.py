@@ -59,6 +59,12 @@ class AllianceOverviewResult:
 class OverviewStructureResult:
     ok: bool
     errors: list[str] = field(default_factory=list)
-    nones_counter: int | None = None
+    
+@dataclass(frozen=True)
+class OverviewPipelineResult:
+    ok: bool
+    errors: list[str] = field(default_factory=list)
+    data: AllianceOverviewData | None=None
+    row_values: list[str] = field(default_factory=list)
     
 # End Alliance Overview parsering dataclasses

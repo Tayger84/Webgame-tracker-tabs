@@ -72,7 +72,7 @@ def load_alliance_overview_data(html) -> AllianceOverviewResult:
             country_name=name,
             country_number=number,
             player_name=country_text[3].lstrip("- "),
-            country_area=country_text[4],
+            country_area=country_text[4].rstrip("km"),
             country_prestige=country_text[6],
             regime=country_text[8],            
         )
