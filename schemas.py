@@ -73,14 +73,15 @@ class OverviewPipelineResult:
 
 @dataclass(frozen=True)
 class AllianceSnapshotData:
-    country_number: int
+    country_number: list[str] = field(default_factory=list)
+    parsed_keys: list[str] = field(default_factory=list)
     snapshot_data: list[str] = field(default_factory=list)
     
 @dataclass(frozen=True)
 class AllianceSnapshotResult:
-    ok=bool
-    errors = list[str] = field(default_factory=list)
-    data = AllianceOverviewData | None == None
+    ok: bool
+    errors: list[str] = field(default_factory=list)
+    data: AllianceSnapshotData | None = None
 
 
 # End Alliance Parsing parsering dataclasses

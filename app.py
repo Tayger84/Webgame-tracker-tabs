@@ -1,7 +1,9 @@
 from flask import Flask
 from services.age_pipeline import process_age_time
 from services.overview_pipeline import process_overview_alliance
-# from pathlib import Path
+
+from parsers.snapshot import load_alliance_snapshot_data
+from pathlib import Path
 
 app = Flask(__name__)
 
@@ -21,14 +23,20 @@ def homepage():
 
 
 
+
 # def initiate_function():
 #     return "The server live and initiate new page"
     
 
-# DATA_URL = Path(__file__).parents[1] / "tests" / "fixtures" / "overview_parser_test_data" / "original_NTRLTY_aliance.html"
+DATA_URL = Path(__file__).parents[0] / "tests" / "fixtures" / "snapshots_test_data" / "NTRLTY_aliance_detaily.html"
+print(DATA_URL)
 
-# html = DATA_URL.read_text(encoding="utf-8")
-    
+html = DATA_URL.read_text(encoding="utf-8")
+
+result = load_alliance_snapshot_data(html)
+
+print(result.data.country_number)
+
     
 if __name__ == '__main__':
     app.run(debug=True)
