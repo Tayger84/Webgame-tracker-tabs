@@ -68,3 +68,19 @@ class OverviewPipelineResult:
     row_values: list[str] = field(default_factory=list)
     
 # End Alliance Overview parsering dataclasses
+
+# Start Alliance Snapshot parsering dataclasses
+
+@dataclass(frozen=True)
+class AllianceSnapshotData:
+    country_number: int
+    snapshot_data: list[str] = field(default_factory=list)
+    
+@dataclass(frozen=True)
+class AllianceSnapshotResult:
+    ok=bool
+    errors = list[str] = field(default_factory=list)
+    data = AllianceOverviewData | None == None
+
+
+# End Alliance Parsing parsering dataclasses

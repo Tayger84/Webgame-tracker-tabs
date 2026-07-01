@@ -10,7 +10,7 @@ def load_alliance_overview_data(html) -> AllianceOverviewResult:
         html file that should be loaded from user
 
     Returns:
-        AllianceOverviewResult: 
+        AllianceOverviewResult: Dataclass for sharing information with main function
     """
     # find the correct data in the html file
     soup = BeautifulSoup(html, "html.parser") 
