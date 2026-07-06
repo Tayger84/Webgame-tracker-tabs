@@ -41,7 +41,7 @@ def load_alliance_snapshot_data(html) -> AllianceSnapshotResult:
             errors=["Found no rows in the table"]
         )
         
-    # how many countries and storaged td in cells
+    # get info how many countries according storaged td in cells
     first_row_cells = rows[0].find_all("td")
     if not first_row_cells or len(first_row_cells) < 2:
         return AllianceSnapshotResult(
@@ -49,13 +49,15 @@ def load_alliance_snapshot_data(html) -> AllianceSnapshotResult:
             errors=["Incorrect count of the countries in the Snapshot"]
         )
         
-    num_countries = len(first_row_cells) - 1
-    
+    # how many countries and cells are there? 
+    expected_cell_count = len(first_row_cells)
+    num_countries = expected_cell_count - 1 
+     
     # create template for country list(dict{})
     countries = [ {} for _ in range(num_countries) ]
     
     
-    # fill rows in the cell in dictionary
+    # fill rows in the cell in dictionary 
     for row in rows:
         cells = [ c.get_text(strip=True) for c in row.find_all("td") ]
         
@@ -64,22 +66,43 @@ def load_alliance_snapshot_data(html) -> AllianceSnapshotResult:
                 ok=False,
                 errors=[f"No strings were found in the country data for the country template"]
             )
+            
+        if len(cells) != expected_cell_count:
+            return AllianceSnapshotResult(
+                ok=False,
+                errors=[f"Expected {expected_cell_count}, got {len(cells)}. Row {cells}"]
+            )
         
-        # header of the property of every country       
+        # header of the property of every country   
         metric_name = cells[0]
         parsed_keys.append(metric_name) # parsed keys for validation snapshot structure
         
         # fill countries via metric_name and cells values
-        for i in range(1, len(cells)):
+        for i in range(1, len(cells)): # len(cells) countries in the every row
             if metric_name == 'Číslo':
                 if cells[i].isdigit():
                     country_numbers.append(int(cells[i]))
-            countries[i-1][metric_name] = cells[i] # duplicity matric_name - in this case the value is stored again in the same key
-    
+                else:
+                    return AllianceSnapshotResult(
+                        ok=False,
+                        errors=[f"Invalid country number format: {cells[i]}"],
+                        )
+            countries[i-1][metric_name] = cells[i] # duplicity matric_name - in this case the value is stored again in the same key 
+
+    if num_countries != len(country_numbers):
+        return AllianceSnapshotResult(
+            ok=False,
+            errors=[
+                f"Invalid count of country numbers. " 
+                f"Expected: {num_countries}, got {len(country_numbers)}. "
+                f"Country numbers: {country_numbers}"
+                ]
+        )
+            
     return AllianceSnapshotResult(
         ok=True,
         data=AllianceSnapshotData(
-            country_number=country_numbers,
+            country_numbers=country_numbers,
             parsed_keys=parsed_keys,
             snapshot_data=countries,
         )

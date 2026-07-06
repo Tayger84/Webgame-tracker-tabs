@@ -73,7 +73,7 @@ class OverviewPipelineResult:
 
 @dataclass(frozen=True)
 class AllianceSnapshotData:
-    country_number: list[str] = field(default_factory=list)
+    country_numbers: list[str] = field(default_factory=list)
     parsed_keys: list[str] = field(default_factory=list)
     snapshot_data: list[str] = field(default_factory=list)
     

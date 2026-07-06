@@ -29,13 +29,12 @@ def homepage():
     
 
 DATA_URL = Path(__file__).parents[0] / "tests" / "fixtures" / "snapshots_test_data" / "NTRLTY_aliance_detaily.html"
-print(DATA_URL)
 
 html = DATA_URL.read_text(encoding="utf-8")
 
 result = load_alliance_snapshot_data(html)
 
-print(result.data.country_number)
+print(result.data.country_numbers)
 
     
 if __name__ == '__main__':
