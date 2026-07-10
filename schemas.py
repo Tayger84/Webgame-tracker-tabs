@@ -83,5 +83,15 @@ class AllianceSnapshotResult:
     errors: list[str] = field(default_factory=list)
     data: AllianceSnapshotData | None = None
 
+@dataclass(frozen=True)    
+class SnapshotStructureResult:
+    ok: bool
+    errors: list[str] = field(default_factory=list)
 
+@dataclass(frozen=True)
+class SnapshotPipelineResult:
+    ok: bool
+    errors: list[str] = field(default_factory=list)
+    data: AllianceSnapshotData | None=None
+    row_values: list[str] = field(default_factory=list)
 # End Alliance Parsing parsering dataclasses
