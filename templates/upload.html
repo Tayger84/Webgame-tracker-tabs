@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="card">
+    <h1>Nahrání dat aliance</h1>
+
+    <p class="description">
+        Nahraj dva samostatné HTML soubory z Webgame. Jeden soubor obsahuje přehled aliance,
+        druhý detail zemí aliance.
+    </p>
+
+    {% if errors %}
+        <div class="messages">
+            {% for error in errors %}
+                <div class="message error">{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form class="upload-form" method="post" enctype="multipart/form-data">
+
+        <div class="upload-grid">
+
+            <div class="upload-box">
+                <h2>Soubor HTML tvé Aliance</h2>
+                <p>Přehled aliance / alliance overview</p>
+
+                <label class="file-label" for="overview-file">
+                    Vybrat soubor Aliance
+                </label>
+
+                <input
+                    id="overview-file"
+                    class="file-input"
+                    type="file"
+                    name="overview_file"
+                    accept=".html,.htm,text/html"
+                    required
+                >
+            </div>
+
+            <div class="upload-box">
+                <h2>Soubor HTML Detailů tvé Aliance</h2>
+                <p>Detaily zemí aliance / alliance snapshot</p>
+
+                <label class="file-label" for="snapshot-file">
+                    Vybrat soubor Detailů Aliance
+                </label>
+
+                <input
+                    id="snapshot-file"
+                    class="file-input"
+                    type="file"
+                    name="snapshot_file"
+                    accept=".html,.htm,text/html"
+                    required
+                >
+            </div>
+
+        </div>
+
+        <button class="primary-button" type="submit">
+            Zpracovat soubory
+        </button>
+
+    </form>
+</section>
+
+
+
+{% endblock %}

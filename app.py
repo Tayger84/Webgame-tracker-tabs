@@ -1,41 +1,72 @@
-from flask import Flask
-from services.age_pipeline import process_age_time
-from services.overview_pipeline import process_overview_alliance
-
-from parsers.snapshot import load_alliance_snapshot_data
-from pathlib import Path
+from flask import Flask, render_template, request, redirect
+from data_services.age_pipeline import process_age_time
+from data_services.overview_pipeline import process_overview_alliance
+from data_services.snapshot_pipeline import process_snapshot_alliance
 
 app = Flask(__name__)
 
 URL = "https://www.webgame.cz/"
 
 @app.route("/")
-def homepage():
-    present_age = process_age_time(URL)
-    data = { "name" : present_age.data.name,
-             "start": present_age.data.start,
-             "end": present_age.data.end,
-             "rest": present_age.data.rest_time,
-             "error": present_age.errors,
-    }
-    errors = present_age.errors  
-    return data
+def home():
 
+    return render_template(
+        'base.html',
+    )
 
-
-
-# def initiate_function():
-#     return "The server live and initiate new page"
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
+        
+    if request.method == "POST":
+        overview_file = request.files.get("overview_file")
+        snapshot_file = request.files.get("snapshot_file")
+        
+        if not overview_file:
+            return render_template(
+                "upload.html",
+                erorrs=["No overview HTTML file was uploaded"],
+            )
+            
+        if not snapshot_file:
+            return render_template(
+                "upload.html",
+                erorrs=["No overview HTML file was uploaded"],
+            )
     
+        overview_html = overview_file.read().decode("utf-8", errors="replace")
+        snapshot_html = snapshot_file.read().decode("utf-8", errors="replace")
+        
+        overview_result = process_overview_alliance(overview_html)
+        snapshot_result = process_snapshot_alliance(snapshot_html)
+        
+        errors = []
+        
+        if not overview_result.ok:
+            errors.append(overview_result.errors)
+            
+        if not snapshot_result.ok:
+            errors.append(snapshot_result.errors)
+            
+        if errors:
+            return render_template(
+                "upload.html",
+                errors=errors,
+                overview_result=overview_result,
+                snapshot_result=snapshot_result,
+            ) 
 
-DATA_URL = Path(__file__).parents[0] / "tests" / "fixtures" / "snapshots_test_data" / "NTRLTY_aliance_detaily.html"
-
-html = DATA_URL.read_text(encoding="utf-8")
-
-result = load_alliance_snapshot_data(html)
-
-print(result.data.country_numbers)
-
+        return render_template(
+            "result.html",
+            errors=[],
+            overview_result=overview_result,
+            snapshot_result=snapshot_result,
+        )
     
+    
+    return render_template(
+        'upload.html',
+        errors=[],
+    )
+
 if __name__ == '__main__':
     app.run(debug=True)
