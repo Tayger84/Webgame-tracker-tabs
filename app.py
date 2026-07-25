@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 from data_services.age_pipeline import process_age_time
 from data_services.overview_pipeline import process_overview_alliance
 from data_services.snapshot_pipeline import process_snapshot_alliance
+from data_services.main_pipeline import load_main_pipeline
 
 app = Flask(__name__)
 
@@ -39,6 +40,8 @@ def upload():
         overview_result = process_overview_alliance(overview_html)
         snapshot_result = process_snapshot_alliance(snapshot_html)
         
+        test_result = load_main_pipeline(overview_html, snapshot_html)
+        
         errors = []
         
         if not overview_result.ok:
@@ -62,6 +65,7 @@ def upload():
             snapshot_result=snapshot_result,
         )
     
+
     
     return render_template(
         'upload.html',

@@ -35,7 +35,6 @@ def overview_structure_validation(parsed_overview_data: dict[int, AllianceOvervi
             if not country.regime in allowed_regimes:
                 errors.append(f"Incorrect regime that was never defined {country.country_number}: {country.regime}")
                 
-        print(country_number, country, errors)
     return OverviewStructureResult(
         ok=len(errors)==0,
         errors=errors

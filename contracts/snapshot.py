@@ -1,5 +1,5 @@
 SNAPSHOT_METRIC_MAP = {
-    "Země": "country",  
+    "Země": "country_name",  
     "Číslo": "number",
     "Hráč": "player",
     "Prestiž K": "prestize",
