@@ -13,7 +13,11 @@ def process_overview_alliance(html: str) -> OverviewPipelineResult:
         html (str): offline html record
 
     Returns:
-        OverviewPipelineResult: Overview Alliance data output with errors list
+        OverviewPipelineResult: 
+            ok: bool
+            errors: list[str] = field(default_factory=list)
+            data: AllianceOverviewData | None=None
+            row_values: list[str] = field(default_factory=list
     """
     
     if not html:

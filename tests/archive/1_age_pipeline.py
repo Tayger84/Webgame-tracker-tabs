@@ -1,5 +1,5 @@
 from parsers.age_parser import load_age_time_data
-from services.age_pipeline import process_age_time
+from data_services.age_pipeline import process_age_time
 from validation.validation_age_structure import age_structure_validation
 from schemas import AgePipelineResult, AgeTimeData, AgeStructureResult, AgeTimeResult
 

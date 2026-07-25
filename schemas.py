@@ -95,3 +95,14 @@ class SnapshotPipelineResult:
     data: AllianceSnapshotData | None=None
     row_values: list[str] = field(default_factory=list)
 # End Alliance Parsing parsering dataclasses
+
+@dataclass(frozen=True)
+class CountryNumbersComparingResult:
+    ok: bool
+    erorrs: list[str] = field(default_factory=list)
+
+# Final dataclass from loading process    
+@dataclass(frozen=True)
+class LoadCountryData:
+    countries_numbers: list[str] = field(default_factory=list)
+    countries_final_data: list[dict] = field(default_factory=list)
