@@ -38,14 +38,14 @@ def upload():
         
 
         load_result = load_main_pipeline(overview_html, snapshot_html)
-        alliance_data = load_result.countries_final_data
+        alliance_raw_data = load_result.countries_final_data
         
-        get_data_for_processing(alliance_data)
+        alliance_final_data = get_data_for_processing(alliance_raw_data)
 
         return render_template(
                     "result.html",
                     errors=[],
-                    alliance_data=alliance_data,
+                    alliance_data=alliance_final_data,
                 )    
 
     

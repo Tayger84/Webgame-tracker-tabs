@@ -1,12 +1,12 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
     
 @dataclass(frozen=True)
 class CountryIdentity:
-    number: int
-    name: str
+    country_number: int
+    country_name: str
     player_name: str 
-    alliance: str | None
+    alliance_name: str | None
     
 @dataclass(frozen=True)
 class Military:
@@ -19,7 +19,7 @@ class Military:
     conventional_rackets: int
     biocid_rackets: int
     emp_rackets: int
-    nuclear_rackets: int
+    nuke_rackets: int
     
 @dataclass(frozen=True)
 class MilitaryProperties:
@@ -78,7 +78,7 @@ class Buildings:
     unbuilt: float # k
     ruins: float # k
     
-dataclass(frozen=True)
+@dataclass(frozen=True)
 class Bonuses:
     bonus_villages: int # %
     bonus_farms: int # %
