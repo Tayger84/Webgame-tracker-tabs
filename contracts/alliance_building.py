@@ -12,6 +12,7 @@ def alliance_countries_building(overview_data: dict, snapshot_data: list[dict]) 
     """
     alliance = []
 
+
     for snapshot_country in snapshot_data:
         country_number = int(snapshot_country["country_number"])
         

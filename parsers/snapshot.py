@@ -87,7 +87,7 @@ def load_alliance_snapshot_data(html) -> AllianceSnapshotResult:
                         ok=False,
                         errors=[f"Invalid country number format: {cells[i]}"],
                         )
-            countries[i-1][metric_name] = cells[i] # duplicity matric_name - in this case the value is stored again in the same key 
+            countries[i-1][metric_name.lower()] = cells[i] # duplicity matric_name - in this case the value is stored again in the same key 
 
     if num_countries != len(country_numbers):
         return AllianceSnapshotResult(

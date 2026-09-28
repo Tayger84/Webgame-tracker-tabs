@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-
     
 @dataclass(frozen=True)
 class CountryIdentity:
@@ -120,7 +119,7 @@ class OtherProperties:
     space_exploartion_increase: float # % 
     points_of_utopia: float # k
     proportion_of_androids: int # %
-    UFO_chance: float # %
+    ufo_chance: float # %
     embargo_votes: int
     operations: int
 

@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 from data_services.age_pipeline import process_age_time
 from data_services.main_pipeline import load_main_pipeline
 from data_output.tabs_pipeline import get_data_for_processing
+from data_output.alliance_summary import alliance_summary_data
 
 app = Flask(__name__)
 
@@ -40,12 +41,14 @@ def upload():
         load_result = load_main_pipeline(overview_html, snapshot_html)
         alliance_raw_data = load_result.countries_final_data
         
-        alliance_final_data = get_data_for_processing(alliance_raw_data)
+        alliance_final_data = get_data_for_processing(alliance_raw_data)  
+        alliance_summary = alliance_summary_data(alliance_final_data)
 
         return render_template(
                     "result.html",
                     errors=[],
-                    alliance_data=alliance_final_data,
+                    alliance_data=alliance_summary,
+
                 )    
 
     

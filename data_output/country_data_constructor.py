@@ -5,7 +5,7 @@ def build_dataclass(cls, row):
     values = {}
     
     for field in fields(cls):
-        values[field.name] =  row[field.name]
+        values[field.name] = row[field.name]
 
     return cls(**values) 
 
@@ -18,6 +18,7 @@ def converting_data_to_obj(row: dict) -> CountrySnapshot:
     Returns:
         CountrySnapshot: builded object with sub_object with data
     """
+   
     return CountrySnapshot(
         identity = build_dataclass(CountryIdentity, row),
         military = build_dataclass(Military, row),

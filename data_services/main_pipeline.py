@@ -45,7 +45,7 @@ def load_main_pipeline(overview_html_data: str, snapshot_html_data: str) -> Load
     
     # all numbers are the same keys translation is in progress    
     snapshot_data_after_translation = snapshot_keys_translation(snapshot_data.data.snapshot_data)
-    
+    print(snapshot_data_after_translation)    
     # time for alliance building
     builded_alliance = alliance_countries_building(overview_data.data, snapshot_data_after_translation)
     
