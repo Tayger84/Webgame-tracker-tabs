@@ -11,6 +11,6 @@ def alliance_summary_data(countries):
             "player_name": country.identity.player_name, 
         })
         
-    extended_data = {alliance_name, country_counter}
+    extended_data = (alliance_name, country_counter)
         
     return country_table, extended_data

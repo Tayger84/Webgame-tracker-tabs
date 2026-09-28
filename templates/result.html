@@ -1,20 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ alliance_data }}</h1>
 
 <table class="data-table">
     <thead>
-        <tr><th>Aliance: {{ alliance_data.alliance_name }}</th></tr>
+        <tr><th>Aliance: {{ alliance_data[1][0] }}</th></tr>
         <tr>
-            <td>Počet členů: </td><td>{{ alliance_data.country_counter }}</td>
+            <td>Počet členů: {{ alliance_data[1][1] }}</td><td>{{ alliance_data.extended_data }}</td>
         </tr>
         <tr>
             <th>#</th><th>Jméno země</th><th>Číslo země</th><th>Jméno hráče</th>
         </tr>
     </thead>
     <tbody>
-        {% for country in alliance_data.country_table %}
+        {% for country in alliance_data[0] %}
         <tr>
             <td>{{ loop.index }}.</td>
             <td>{{ country.country_name }}</td>

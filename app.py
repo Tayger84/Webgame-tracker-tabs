@@ -42,13 +42,13 @@ def upload():
         alliance_raw_data = load_result.countries_final_data
         
         alliance_final_data = get_data_for_processing(alliance_raw_data)  
-        alliance_summary = alliance_summary_data(alliance_final_data)
+        alliance_data = alliance_summary_data(alliance_final_data)
+        print(alliance_data)
 
         return render_template(
                     "result.html",
                     errors=[],
-                    alliance_data=alliance_summary,
-
+                    alliance_data=alliance_data,
                 )    
 
     
