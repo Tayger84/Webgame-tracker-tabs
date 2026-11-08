@@ -2,8 +2,7 @@ from flask import Flask, render_template, request, redirect
 from data_services.age_pipeline import process_age_time
 from data_services.main_pipeline import load_main_pipeline
 from data_output.tabs_pipeline import get_data_for_processing
-from data_output.alliance_summary import alliance_summary_data
-
+from data_output.alliance_summary import build_alliance
 app = Flask(__name__)
 
 URL = "https://www.webgame.cz/"
@@ -42,13 +41,23 @@ def upload():
         alliance_raw_data = load_result.countries_final_data
         
         alliance_final_data = get_data_for_processing(alliance_raw_data)  
-        alliance_data = alliance_summary_data(alliance_final_data)
-        print(alliance_data)
+        
+        build_page = build_alliance(alliance_final_data)
+        
+        
+        
+        
+        # alliance_data = alliance_summary_data(alliance_final_data)
+        
+        # allince_fin_data = alliance_sum(alliance_final_data)
+        # print(allince_fin_data)
+
 
         return render_template(
                     "result.html",
                     errors=[],
-                    alliance_data=alliance_data,
+                    alliance_data=build_page,
+                    # alliance_fin_data=allince_fin_data,
                 )    
 
     

@@ -1,24 +1,31 @@
 
-def build_country_identity(countries):
-    rows = []
+# def build_country_identity(countries):
+#     rows = []
     
-    for country in countries:
-        country_name = country.identity.country_name
-        country_number = country.identity.country_number
-        player_name = country.identity.player_name
-        alliance_name = country.identity.alliance_name
+#     for country in countries:
+#         country_name = country.identity.country_name
+#         country_number = country.identity.country_number
+#         player_name = country.identity.player_name
+#         regime = country.identity.regime
+#         alliance_name = country.identity.alliance_name
 
-        rows.append({
-            "country_name": country_name,
-            "country_number": country_number,
-            "player_name": player_name,
-            "alliance_name": alliance_name,
-        })
+#         rows.append({
+#             "country_name": country_name,
+#             "country_number": country_number,
+#             "player_name": player_name,
+#             "regime": regime,
+#             "alliance_name": alliance_name,
+#         })
 
-    return {
-        "alliance_name": alliance_name,
-        "rows": rows,
-    }
+#     return {
+#         "alliance_name": alliance_name,
+#         "rows": rows,
+#     }
+
+def build_country_computations(countries):
+    
+    pass
+
 
 def build_military_breakdown(countries):
     rows = []
@@ -107,7 +114,7 @@ def build_military_properties(countries):
     
     for rank, (l_min, l_max) in rank_limits.items():
         if l_min <= average_exp < l_max:
-            alliance_rank =  rank
+            alliance_rank = rank
             rank_limits(l_min, l_max)
             
             average_alliance_exp = (rank, l_min, l_max, average_exp)
@@ -124,6 +131,7 @@ def build_military_properties(countries):
         "average_exp": average_exp,
         "rank": rank,
         "rank_limits": rank_limits,
+        "alliance_rank": alliance_rank,
         "total_exps": total_exps,
         "country_count": country_count,
                
@@ -164,6 +172,7 @@ def build_military_tech(countries):
         rows.append({
             "country_name": country.identity.country_name,
             "country_number": country.identity.country_number,
+            "country_area": country.buildings.country_area,
         })
     return {
         "rows": rows,
@@ -187,7 +196,9 @@ def build_properties(countries):
         rows.append({
             "country_name": country.identity.country_name,
             "country_number": country.identity.country_number,
+            "country_prestige": country_prestige,
         })
+        
     return {
         "rows": rows,
     }
@@ -293,18 +304,4 @@ def Build_otherproperties(countries):
     return {
         "rows": rows,
     }
-        
-# def country_summary(countries):
-#     table = []
-    
-#     for country in countries:
-#         table.append({
-#             "country_number": country.identity.country_number,
-#             "country_name": country.identity.country_name,
-#             "player_name": country.identity.player_name, 
-#             "alliance_name": country.identity.alliance_name,
-#         })
-        
-#     return table
-#         prestige_total_country_units = soldiers+tanks*5+fighters*3.5+bunkers*3.5+mechs*2.7
-#       prestige_total_alliance_units += prestige_total_country_units
+

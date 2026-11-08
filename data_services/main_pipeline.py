@@ -1,5 +1,5 @@
-from data_services.overview_pipeline import load_alliance_overview_data
-from data_services.snapshot_pipeline import load_alliance_snapshot_data
+from data_services.overview_pipeline import process_overview_alliance
+from data_services.snapshot_pipeline import process_snapshot_alliance
 from contracts.snapshot_translation import snapshot_keys_translation
 from contracts.alliance_building import alliance_countries_building
 
@@ -17,8 +17,9 @@ def load_main_pipeline(overview_html_data: str, snapshot_html_data: str) -> Load
     """
     
     
-    overview_data = load_alliance_overview_data(overview_html_data)
-    snapshot_data = load_alliance_snapshot_data(snapshot_html_data)
+    overview_data = process_overview_alliance(overview_html_data)
+    snapshot_data = process_snapshot_alliance(snapshot_html_data)
+  
     
     # check if data are prepared for next processing
     if not overview_data.ok:

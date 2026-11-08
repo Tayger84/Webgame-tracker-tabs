@@ -5,6 +5,7 @@ class CountryIdentity:
     country_number: int
     country_name: str
     player_name: str 
+    regime: str
     alliance_name: str | None
     
 @dataclass(frozen=True)

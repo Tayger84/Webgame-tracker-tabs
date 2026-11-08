@@ -92,4 +92,7 @@ SNAPSHOT_METRIC_MAP = {
     "nepř kola": "inaccessible_rounds"    
 }
 
-METRIC_KEYS = list(SNAPSHOT_METRIC_MAP.items())
+# just for validation
+
+METRIC_KEYS =  ['Energie K', 'Agentů', 'Android', 'B voj zákl', 'T Energe K', 'Na trhu', 'Do poklad', 'Hosp pomoc', 'B farmy', 'Vojáků K', 'T Rakety K', 'Dostal HP', '+peněz K', 'Továrny K', 'Volná kola', 'T Protir K', 'B žoldy', 'B útok', 'Hum pomoc', 'T Zemědě K', 'Emp rak', 'T Továrn K', '+jídla', 'Staveb fir', 'Kasárny K', 'Země', 'Jídla K', 'B obrana', 'Prestiž K', 'Utop spok K', 'T vojen K', 'Záb stř K', 'Voj zákl K', 'Sesvačenost', 'Tanků K', 'B koloniz', 'Operací', 'B laborat', 'Mechů K', 'Farmy K', 'Zkuš arm K', 'Vesnice K', 'B vesnice', 'B efekt hosp', 'Poslal HP', 'Města K', 'Z poklad M', 'T HustZa K', 'Vesmír', 'Hráč', 'Rozvoj zač', 'Stíhaček K', 'Emb Hlas', 'Nepř kola', 'Hodnost', 'UFO', 'T DomTrh K', 'B max hosp', '+technologií', '+dílů jedn', 'Číslo', 'Bio rak', 'Spokoj', 'B peníze', 'B továrny', 'Bunkrů K', 'Odehr kola', 'T Výzkum K', '+vojáků', 'T Rozvěd K', 'B kasárny', 'Obyvatel M', 'Nukl rak', 'B elektrár', 'B max voj', 'T hospod K', 'Konv rak', 'T RychSt K', '+energie', 'Rozloha K', 'Peněz M', 'T SílaZb K', 'Obchod z K', 'Logout', 'Laborato K', 'T Obchod K', 'Zkuš věk K', 'Nezastav K', 'Ruiny K', 'Elektrár K', 'Ali Fórum']
+

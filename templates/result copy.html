@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<table class="data-table">
+
+    <thead>
+        <tr><th>Aliance: {{ alliance_data[1]["alliance_name"] }}</th></tr>
+        <tr>
+            <td>Počet členů: {{ alliance_data[1]["members_count"] }}</td><td>Hodnost: {{ alliance_data[1]["alliance_rank"] }}</td>
+        </tr>
+        <tr>
+            <th>#</th><th>Země</th><th>Prestiž</th><th>Hodnost</th><th>Rozloha(km2)</th><th>vláda</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for country in alliance_fin_data %}
+        <tr>
+            <td>{{ loop.index }}.</td>
+            <td>{{ country.identification }} - <strong>{{ country.player}}</strong></td>
+            <td>{{ country.prestige }}</td>
+            <td>{{ country.rank }}</td>
+            <td>{{ country.area }} km2</td>
+            <td>{{ country.regime }}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+
+    <p>Aliance dosud získala {{ alliance_data[1]["total_exps"] }}k expů. To odpovídá hodnosti. V průměru {{ alliance_data[1]["average_exps"] }}k na jednu zemi.</p>
+
+</table>
+
+{% endblock content %}

@@ -35,7 +35,7 @@ def process_snapshot_alliance(html: str) -> SnapshotPipelineResult:
             errors=["The parser process failed"] + parser_result.errors,
         )   
         
-    validation_result = snapshot_structure_validation(set(METRIC_KEYS), set(parser_result.data.parsed_keys))
+    validation_result = snapshot_structure_validation(set(parser_result.data.parsed_keys), set(METRIC_KEYS))
     
     if not validation_result.ok:
         return SnapshotPipelineResult(

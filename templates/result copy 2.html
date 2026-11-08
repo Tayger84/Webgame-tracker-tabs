@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<table class="data-table">
+
+    <thead>
+        <tr>
+            <th>Aliance: {{ alliance_data.alliance_header.name }}</th><th>Členů: {{ alliance_data.alliance_header.members }}</th><th>Rozloha: {{ alliance_data.alliance_header.area }} km2</th>
+        </tr>
+        <tr>
+            <td>Prestige: {{ alliance_data.alliance_header.prestige }}</td><td>Max prestige pro vyhlášení: {{ alliance_data.alliance_header.max_prest_to_war }} </td>
+        </tr>
+        <tr>
+            <td>Hodnost: {{ alliance_data.alliance_header.rank }}.</td><td>Další level: {% if alliance_data.alliance_header.rank == 14 %} 0 {% else %} {{ alliance_data.alliance_header.new_level}}k expů{% endif %}</td><td>Expů na jednu zemi:  {% if alliance_data.alliance_header.rank == 14 %} 0 {% else %} {{ alliance_data.alliance_header.exp_to_country}}k expů {% endif %}</td>
+        </tr>
+        <tr>
+            <th>#</th><th>Země</th><th>Prestiž</th><th>Hodnost</th><th>Rozloha(km2)</th><th>vláda</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for country in alliance_data.alliance_body %}
+        <tr>
+            <td>{{ loop.index }}.</td>
+            <td>{{ country.identity.country_name }}(#{{ country.identity.country_number }}) - <strong>{{ country.player }}</strong></td>
+            <td>{{ country.properties.country_prestige }}</td>
+            <td>{{ country.military_properties.rank }}</td>
+            <td>{{ country.buildings.country_area }} km2</td>
+            <td>{{ country.identity.regime }}</td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+
+  
+</table>
+
+{% endblock content %}

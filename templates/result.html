@@ -1,28 +1,76 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% set header = alliance_data.alliance_header %}
 
-<table class="data-table">
-    <thead>
-        <tr><th>Aliance: {{ alliance_data[1][0] }}</th></tr>
-        <tr>
-            <td>Počet členů: {{ alliance_data[1][1] }}</td><td>{{ alliance_data.extended_data }}</td>
-        </tr>
-        <tr>
-            <th>#</th><th>Jméno země</th><th>Číslo země</th><th>Jméno hráče</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for country in alliance_data[0] %}
-        <tr>
-            <td>{{ loop.index }}.</td>
-            <td>{{ country.country_name }}</td>
-            <td>(#{{ country.country_number }})</td>
-            <td>{{ country.player_name }}</td>
-        </tr>
+<section class="alliance-dashboard">
+    <header class="alliance-titlebar">
+        <h1>{{ header.name }}</h1>
+        <span class="member-count">{{ header.members }} členů</span>
+    </header>
 
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="alliance-stats">
+        <div class="stat-card">
+            <span class="stat-label">Prestiž</span>
+            <strong class="stat-value">{{ "{:,}".format(header.prestige|int).replace(",", " ") }}</strong>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Hodnost</span>
+            <strong class="stat-value">{{ header.rank }}</strong>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Rozloha</span>
+            <strong class="stat-value">{{ "{:,}".format(header.area|int).replace(",", " ") }} <small>km²</small></strong>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Max. prestiž pro vyhlášení WAR</span>
+            <strong class="stat-value">{{ "{:,}".format(header.max_prest_to_war|int).replace(",", " ") }}</strong>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Další level</span>
+            <strong class="stat-value">
+                {% if header.rank|int == 14 %}0{% else %}{{ "%.1f"|format(header.new_level|float) }}{% endif %} <small>k expů</small>
+            </strong>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Expů na jednu zemi</span>
+            <strong class="stat-value">
+                {% if header.rank|int == 14 %}0{% else %}{{ "%.1f"|format(header.exp_to_country|float) }}{% endif %} <small>k expů</small>
+            </strong>
+        </div>
+    </div>
 
+    <div class="countries-heading">
+        <h2>Země aliance</h2>
+    </div>
+
+    <div class="countries-scroll">
+        <table class="countries-table">
+            <thead>
+                <tr>
+                    <th scope="col" class="col-index">#</th>
+                    <th scope="col" class="col-country">Země</th>
+                    <th scope="col" class="numeric">Prestiž</th>
+                    <th scope="col" class="numeric">Hod.</th>
+                    <th scope="col" class="numeric">Rozloha</th>
+                    <th scope="col">Vláda</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for country in alliance_data.alliance_body %}
+                <tr>
+                    <td class="col-index">{{ loop.index }}.</td>
+                    <td class="col-country">
+                        <span class="country-line"><span class="country-name">{{ country.identity.country_name }}</span> <span class="country-number">#{{ country.identity.country_number }}</span><span class="country-separator">·</span><span class="country-player">{{ country.identity.player_name }}</span></span>
+                    </td>
+                    <td class="numeric">{{ "{:,}".format(country.properties.country_prestige|int).replace(",", " ") }}</td>
+                    <td class="numeric">{{ country.military_properties.rank }}</td>
+                    <td class="numeric">{{ "{:,}".format(country.buildings.country_area|int).replace(",", " ") }} <span class="unit">km²</span></td>
+                    <td>{{ country.identity.regime }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock content %}
